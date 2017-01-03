@@ -17,7 +17,7 @@ var xScale = d3.scaleLinear()
               .domain([0, datum.length])
               .range([0, w])
 
-    console.log(datum.length)
+
 
 var svg = d3.select("body").append("svg").attr("height", h).attr("width", w)
 
@@ -26,9 +26,10 @@ var rect = svg.selectAll("rect").data(datum).enter().append("rect")
 rect.attr("height", function(d){return d[1]})
   .attr("y", function(d){return h-yScale(d[1])})
     .attr("x", function(d, i){return xScale(i)})
-    .attr("fill", "red")
     .attr("width", 2)
 
+var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
+console.log(tip)
 
 
 
