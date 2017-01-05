@@ -1,56 +1,80 @@
-var url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json"
+var data = [
+  8,
+  8,
+  6,
+  40,
+  8,
+  8,
+  6,
+  40,
+  3,
+  5,
+  8,
+  8,
+  6,
+  40,
+  8,
+  8,
+  6,
+  40,
+  40,
+  8,
+  8,
+  6,
+  40,
+  3,
+  5,
+  8,
+  8,
+  6,
+  40,
+  8,
+  8,
+  6,
+  40
+]
 
-var h = 600;
-var w = 800;
+var padding = 30;
+var margin = {top: 20, right: 10, bottom: 50, left: 20}
 
-d3.json(url, function(data) {
-  var datum = data.data
+var max = d3.max(data);
+var min = d3.min(data)
 
-  var heightMax = d3.max(datum, function(d) {
-    return d[1]
-  })
-  var heightMin = d3.min(datum, function(d) {
-    return d[1]
-  })
-
-  var yScale = d3.scaleLinear().domain([0, heightMax]).range([0, h])
-
-  var xScale = d3.scaleBand().domain(d3.range(datum.length)).range([0, w-100])
-
-  var svg = d3.select("body").append("svg").attr("height", h).attr("width", w)
-
-  var rect = svg.selectAll("rect").data(datum).enter().append("rect")
-
-  rect.attr("height", function(d) {
-    return parseInt(d[1])
-  }).attr("y", function(d) {
-    return h - yScale(d[1])
-  }).attr("x", function(d, i) {
-    return xScale(i) + 20
-  })
-    .attr("width", xScale.bandwidth()).attr("fill", "skyblue")
-  rect.on("mouseover", function(d) {
-    var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
-    var yPosition = parseFloat(d3.select(this).attr("y")) + 14;
+var w = 500  - margin.left;
+var h = 200;
 
 
-    d3.select(this).attr("fill", "black")
+var xScale = d3.scaleBand().domain(d3.range(data.length)).rangeRound([0, w]).padding(0.5)
 
+var yScale = d3.scaleLinear().domain([0, max]).range([
+  h - margin.top,
+  0
+])
 
+var svg = d3.select("body").append("svg").attr("width", w + 100).attr("height", h)
+.attr("transform", "translate(" + padding + ", 0)") ;
 
-    svg.append("text").attr("id", "tooltip")
-          .attr("x", xPosition).attr("y", yPosition)
-          .attr("text-anchor", "middle")
-          .attr("font-family", "sans-serif")
-          .attr("font-size", "15px")
-          .attr('text-anchor', 'middle')
-          .attr("font-weight", "bold")
-          .attr("fill", "red")
-          .style("border", "red")
-          .html(d[0]+ "<br>"  + " " +  d[1] );
-          }).on("mouseout", function() { //Remove the tooltip
-              d3.select("#tooltip").remove();
-              rect.attr("fill", "skyblue")
-            })
+var rect = svg.selectAll().data(data).enter().append("rect");
 
+var xAxis = d3.axisBottom(xScale).ticks(5)
+
+var yAxis = d3.axisLeft(yScale)
+
+rect.attr("height", function(d) {
+  return h - yScale(d)
+}).attr("width", 5).style("fill", "teal").attr("x", function(d, i) {
+  return xScale(i)
+}).attr("y", function(d) {
+  return yScale(d) - margin.bottom
 })
+.attr("transform", "translate(" + padding + ",0 )")
+
+
+svg.append("g").call(xAxis).attr("transform", "translate(" + padding + "," + (h - margin.bottom) + ")")
+
+
+
+svg.append("g").call(yAxis)
+.attr("transform", "translate("+ padding + "," + -padding + ")")
+
+console.log(data.length)
