@@ -15,15 +15,36 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="bower_components/d3/d3.min.js"></script>
+<script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+<script src="bower_components/d3-tip/index.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js" charset="utf-8"></script>
 
   <link rel="stylesheet" href="master.css">
 </head>
 <body>
-  <div class="container">
+  <div id="chartContainer">
 
   </div>
+
+
+<!-- <script type="text/javascript">
+var svg = dimple.newSvg("body", 800, 600)
+var data = [
+  {"Word": "Hello", "Awesomness":2000},
+  {"Word": "World", "Awesomness": 3000 }
+];
+var chart = new dimple.chart(svg, data);
+chart.addCategoryAxis("x", "Word");
+chart.addMeasureAxis("y", "Awesomeness");
+chart.addSeries(null, dimple.plot.bar)
+chart.draw()
+</script>
+ -->
+
 <!-- <script src="master.js" charset="utf-8"></script> -->
-<script src="freecodecamp-BarChart.js" charset="utf-8"></script>
+<!-- <script src="freecodecamp-BarChart.js" charset="utf-8"></script> -->
+<!-- <script src="dimple.js" text/ charset="utf-8"></script> -->
+<script src="tip.js" charset="utf-8"></script>
 </body>
 </html>

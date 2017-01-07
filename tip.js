@@ -1,3 +1,6 @@
+tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
+
+
 var margin = {
     top: 100,
     bottom: 10,
@@ -5,7 +8,7 @@ var margin = {
     right: 70
   },
   w = 1000,
-  h = 300,
+  h = 500,
   padding = 50;
 
 var url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json";
@@ -32,10 +35,16 @@ var xScale = d3.scaleLinear()
               .domain([0, datum.length ])
               .range([0, w])
 
+              var tip = d3.tip()
+                .attr('class', 'd3-tip')
+              .offset([-10, 0])
+                .html(function(d) {
+                //   var dab = moment(d[0]);
+                // var d = dab.format("MMMM DD YYYY")
+                  return "<p><strong>" + d[0] + "</strong><span style='color:red'> " + d[1] + " in billions</span></p>";})
 
-console.log(datum.length)
-  console.log()
-  rect.attr("width", 10)
+rect.call(tip)
+  .attr("width", 10)
     .attr("height", function(d) {
     return h - yScale(d[1]);
     })
@@ -44,18 +53,16 @@ console.log(datum.length)
     })
   .attr("y", function(d){return yScale(d[1]);})
   .attr("fill", "teal")
+  .on("mouseover", tip.show)
+  .on("mouseout", tip.hide)
+  .attr("class", "bar")
 
 
-svg.append("g").call(d3.axisLeft(yScale).ticks(5))
+svg.append("g").call(d3.axisLeft(yScale).ticks(10))
     .attr("transform", "translate(" + margin.left  + ")")
 
     svg.append("g").call(d3.axisBottom(xScale).ticks(0))
     .attr("transform", "translate("+ margin.left +"," + (h)+ ")")
 
-    rect.on("mouseover", function(d){
-      d3.select(this).attr("fill", "red")
-    }).on("mouseout", function(d){
-      d3.select(this).attr("fill", "teal")
-    })
 
 });
